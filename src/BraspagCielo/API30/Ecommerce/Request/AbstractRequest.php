@@ -2,7 +2,8 @@
 
 namespace BraspagCielo\API30\Ecommerce\Request;
 
-use Cielo\API30\Merchant;
+use BraspagCielo\API30\Ecommerce\Environment;
+use BraspagCielo\API30\Merchant;
 use Psr\Log\LoggerInterface;
 
 /**
@@ -14,18 +15,21 @@ abstract class AbstractRequest
 {
 
     private $merchant;
+    private $environment;
     private $logger;
 
 	/**
 	 * AbstractSaleRequest constructor.
 	 *
 	 * @param Merchant $merchant
+     * @param Environment $environment
 	 * @param LoggerInterface|null $logger
 	 */
-    public function __construct(Merchant $merchant, LoggerInterface $logger = null)
+    public function __construct(Merchant $merchant, Environment $environment, LoggerInterface $logger = null)
     {
-        $this->merchant = $merchant;
-        $this->logger = $logger;
+        $this->merchant    = $merchant;
+        $this->environment = $environment;
+        $this->logger      = $logger;
     }
 
     /**
@@ -35,6 +39,43 @@ abstract class AbstractRequest
      */
     public abstract function execute($param);
 
+    private function braspagAuthToken()
+    {
+        $headers = [
+            'Accept: application/json',
+            'Accept-Encoding: gzip',
+            'User-Agent: CieloEcommerce/3.0 PHP SDK',
+            'Authorization: Bearer ' . base64_encode($this->merchant->getId() . ':' . $this->merchant->getKey()),
+            'RequestId: ' . uniqid(),
+            'Content-Type: application/x-www-form-urlencoded'
+        ];
+
+        $curl = curl_init($this->environment->getBraspagOauth2ServerURL());
+
+        curl_setopt($curl, CURLOPT_SSLVERSION, CURL_SSLVERSION_TLSv1_2);
+        curl_setopt($curl, CURLOPT_SSL_VERIFYPEER, true);
+        curl_setopt($curl, CURLOPT_POST, true);
+        curl_setopt($curl, CURLOPT_POSTFIELDS, 'grant_type=client_credentials');
+        curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($curl, CURLOPT_HTTPHEADER, $headers);
+
+        $response   = curl_exec($curl);
+        $statusCode = curl_getinfo($curl, CURLINFO_HTTP_CODE);
+
+        die(var_dump($response));
+
+        if (curl_errno($curl)) {
+            $message = sprintf('cURL error[%s]: %s', curl_errno($curl), curl_error($curl));
+
+            $this->logger->error($message);
+
+            throw new \RuntimeException($message);
+        }
+
+        curl_close($curl);
+
+    }
+
     /**
      * @param                        $method
      * @param                        $url
@@ -42,11 +83,13 @@ abstract class AbstractRequest
      *
      * @return mixed
      *
-     * @throws \Cielo\API30\Ecommerce\Request\CieloRequestException
+     * @throws \BraspagCielo\API30\Ecommerce\Request\CieloRequestException
      * @throws \RuntimeException
      */
     protected function sendRequest($method, $url, \JsonSerializable $content = null)
     {
+        $this->braspagAuthToken();
+
         $headers = [
             'Accept: application/json',
             'Accept-Encoding: gzip',

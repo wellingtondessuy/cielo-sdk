@@ -2,12 +2,12 @@
 
 namespace BraspagCielo\API30\Ecommerce;
 
-use Cielo\API30\Ecommerce\Request\CreateSaleRequest;
-use Cielo\API30\Ecommerce\Request\QueryRecurrentPaymentRequest;
-use Cielo\API30\Ecommerce\Request\QuerySaleRequest;
-use Cielo\API30\Ecommerce\Request\TokenizeCardRequest;
-use Cielo\API30\Ecommerce\Request\UpdateSaleRequest;
-use Cielo\API30\Merchant;
+use BraspagCielo\API30\Ecommerce\Request\CreateSaleRequest;
+use BraspagCielo\API30\Ecommerce\Request\QueryRecurrentPaymentRequest;
+use BraspagCielo\API30\Ecommerce\Request\QuerySaleRequest;
+use BraspagCielo\API30\Ecommerce\Request\TokenizeCardRequest;
+use BraspagCielo\API30\Ecommerce\Request\UpdateSaleRequest;
+use BraspagCielo\API30\Merchant;
 use Psr\Log\LoggerInterface;
 
 /**
@@ -53,7 +53,7 @@ class CieloEcommerce
      *
      * @return Sale The Sale with authorization, tid, etc. returned by Cielo.
      *
-     * @throws \Cielo\API30\Ecommerce\Request\CieloRequestException if anything gets wrong.
+     * @throws \BraspagCielo\API30\Ecommerce\Request\CieloRequestException if anything gets wrong.
      *
      * @see <a href=
      *      "https://developercielo.github.io/Webservice-3.0/english.html#error-codes">Error
@@ -74,7 +74,7 @@ class CieloEcommerce
      *
      * @return Sale The Sale with authorization, tid, etc. returned by Cielo.
      *
-     * @throws \Cielo\API30\Ecommerce\Request\CieloRequestException if anything gets wrong.
+     * @throws \BraspagCielo\API30\Ecommerce\Request\CieloRequestException if anything gets wrong.
      *
      * @see <a href=
      *      "https://developercielo.github.io/Webservice-3.0/english.html#error-codes">Error
@@ -93,10 +93,10 @@ class CieloEcommerce
      * @param string $recurrentPaymentId
      *            The RecurrentPaymentId to be queried
      *
-     * @return \Cielo\API30\Ecommerce\RecurrentPayment
+     * @return \BraspagCielo\API30\Ecommerce\RecurrentPayment
      *            The RecurrentPayment with authorization, tid, etc. returned by Cielo.
      *
-     * @throws \Cielo\API30\Ecommerce\Request\CieloRequestException if anything gets wrong.
+     * @throws \BraspagCielo\API30\Ecommerce\Request\CieloRequestException if anything gets wrong.
      *
      * @see <a href=
      *      "https://developercielo.github.io/Webservice-3.0/english.html#error-codes">Error
@@ -119,7 +119,7 @@ class CieloEcommerce
      *
      * @return Sale The Sale with authorization, tid, etc. returned by Cielo.
      *
-     * @throws \Cielo\API30\Ecommerce\Request\CieloRequestException if anything gets wrong.
+     * @throws \BraspagCielo\API30\Ecommerce\Request\CieloRequestException if anything gets wrong.
      *
      * @see <a href=
      *      "https://developercielo.github.io/Webservice-3.0/english.html#error-codes">Error
@@ -146,10 +146,10 @@ class CieloEcommerce
      *            Amount of the authorization should be destined for the service
      *            charge
      *
-     * @return \Cielo\API30\Ecommerce\Payment The captured Payment.
+     * @return \BraspagCielo\API30\Ecommerce\Payment The captured Payment.
      *
      *
-     * @throws \Cielo\API30\Ecommerce\Request\CieloRequestException if anything gets wrong.
+     * @throws \BraspagCielo\API30\Ecommerce\Request\CieloRequestException if anything gets wrong.
      *
      * @see <a href=
      *      "https://developercielo.github.io/Webservice-3.0/english.html#error-codes">Error

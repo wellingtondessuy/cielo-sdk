@@ -2,9 +2,9 @@
 
 namespace BraspagCielo\API30\Ecommerce\Request;
 
-use Cielo\API30\Ecommerce\Sale;
-use Cielo\API30\Environment;
-use Cielo\API30\Merchant;
+use BraspagCielo\API30\Ecommerce\Sale;
+use BraspagCielo\API30\Environment;
+use BraspagCielo\API30\Merchant;
 use Psr\Log\LoggerInterface;
 
 /**
@@ -15,8 +15,6 @@ use Psr\Log\LoggerInterface;
 class QuerySaleRequest extends AbstractRequest
 {
 
-    private $environment;
-
 	/**
 	 * QuerySaleRequest constructor.
 	 *
@@ -26,16 +24,14 @@ class QuerySaleRequest extends AbstractRequest
 	 */
     public function __construct(Merchant $merchant, Environment $environment, LoggerInterface $logger = null)
     {
-        parent::__construct($merchant, $logger);
-
-        $this->environment = $environment;
+        parent::__construct($merchant, $environment, $logger);
     }
 
     /**
      * @param $paymentId
      *
      * @return null
-     * @throws \Cielo\API30\Ecommerce\Request\CieloRequestException
+     * @throws \BraspagCielo\API30\Ecommerce\Request\CieloRequestException
      * @throws \RuntimeException
      */
     public function execute($paymentId)

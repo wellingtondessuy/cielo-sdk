@@ -2,9 +2,9 @@
 
 namespace BraspagCielo\API30\Ecommerce\Request;
 
-use Cielo\API30\Ecommerce\CreditCard;
-use Cielo\API30\Ecommerce\Environment;
-use Cielo\API30\Merchant;
+use BraspagCielo\API30\Ecommerce\CreditCard;
+use BraspagCielo\API30\Ecommerce\Environment;
+use BraspagCielo\API30\Merchant;
 use Psr\Log\LoggerInterface;
 
 /**
@@ -14,11 +14,6 @@ use Psr\Log\LoggerInterface;
  */
 class TokenizeCardRequest extends AbstractRequest
 {
-
-    private $environment;
-    /** @var Merchant $merchant */
-    private $merchant;
-
 	/**
 	 * CreateCardTokenRequestHandler constructor.
 	 *
@@ -28,10 +23,7 @@ class TokenizeCardRequest extends AbstractRequest
 	 */
     public function __construct(Merchant $merchant, Environment $environment, LoggerInterface $logger = null)
     {
-        parent::__construct($merchant, $logger);
-
-        $this->merchant    = $merchant;
-        $this->environment = $environment;
+        parent::__construct($merchant, $environment, $logger);
     }
 
     /**
