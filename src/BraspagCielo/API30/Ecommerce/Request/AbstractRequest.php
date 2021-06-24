@@ -2,7 +2,7 @@
 
 namespace BraspagCielo\API30\Ecommerce\Request;
 
-use BraspagCielo\API30\Ecommerce\Environment;
+use BraspagCielo\API30\Environment;
 use BraspagCielo\API30\Merchant;
 use Psr\Log\LoggerInterface;
 
@@ -14,9 +14,9 @@ use Psr\Log\LoggerInterface;
 abstract class AbstractRequest
 {
 
-    private $merchant;
-    private $environment;
-    private $logger;
+    protected $merchant;
+    protected $environment;
+    protected $logger;
 
 	/**
 	 * AbstractSaleRequest constructor.
