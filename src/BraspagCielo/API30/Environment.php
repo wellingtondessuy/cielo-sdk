@@ -1,6 +1,6 @@
 <?php
 
-namespace Cielo\API30;
+namespace BraspagCielo\API30;
 
 /**
  * Interface Environment

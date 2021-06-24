@@ -1,24 +1,24 @@
 <?php
 
-namespace Cielo\API30\Ecommerce\Request;
+namespace BraspagCielo\API30\Ecommerce\Request;
 
-use Cielo\API30\Ecommerce\Sale;
+use Cielo\API30\Ecommerce\RecurrentPayment;
 use Cielo\API30\Environment;
 use Cielo\API30\Merchant;
 use Psr\Log\LoggerInterface;
 
 /**
- * Class CreateSaleRequest
+ * Class QueryRecurrentPaymentRequest
  *
  * @package Cielo\API30\Ecommerce\Request
  */
-class CreateSaleRequest extends AbstractRequest
+class QueryRecurrentPaymentRequest extends AbstractRequest
 {
 
     private $environment;
 
 	/**
-	 * CreateSaleRequest constructor.
+	 * QueryRecurrentPaymentRequest constructor.
 	 *
 	 * @param Merchant $merchant
 	 * @param Environment $environment
@@ -32,26 +32,26 @@ class CreateSaleRequest extends AbstractRequest
     }
 
     /**
-     * @param $sale
+     * @param $recurrentPaymentId
      *
      * @return null
      * @throws \Cielo\API30\Ecommerce\Request\CieloRequestException
      * @throws \RuntimeException
      */
-    public function execute($sale)
+    public function execute($recurrentPaymentId)
     {
-        $url = $this->environment->getApiUrl() . '1/sales/';
+        $url = $this->environment->getApiQueryURL() . '1/RecurrentPayment/' . $recurrentPaymentId;
 
-        return $this->sendRequest('POST', $url, $sale);
+        return $this->sendRequest('GET', $url);
     }
 
     /**
      * @param $json
      *
-     * @return Sale
+     * @return RecurrentPayment
      */
     protected function unserialize($json)
     {
-        return Sale::fromJson($json);
+        return RecurrentPayment::fromJson($json);
     }
 }

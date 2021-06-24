@@ -5,7 +5,7 @@
     }
   },
   "name": "wellingtondessuy/cielo-sdk",
-  "description": "Integração com a API 3.0 da Cielo",
+  "description": "Fork da Integração com a API 3.0 da Cielo",
   "license": "MIT",
   "type": "library",
   "require": {
@@ -17,5 +17,5 @@
   "suggest": {
     "monolog/monolog": "Allows more advanced logging of the application flow"
   },
-  "homepage": "https://github.com/DeveloperCielo/API-3.0-PHP"
+  "homepage": "https://github.com/wellingtondessuy/cielo-sdk"
 }

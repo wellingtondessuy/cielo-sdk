@@ -1,6 +1,6 @@
 <?php
 
-namespace Cielo\API30\Ecommerce\Request;
+namespace BraspagCielo\API30\Ecommerce\Request;
 
 use Cielo\API30\Merchant;
 use Psr\Log\LoggerInterface;

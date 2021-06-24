@@ -1,6 +1,6 @@
 <?php
 
-namespace Cielo\API30\Ecommerce\Request;
+namespace BraspagCielo\API30\Ecommerce\Request;
 
 /**
  * Class CieloRequestException
