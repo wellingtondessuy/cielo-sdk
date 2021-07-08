@@ -10,17 +10,17 @@ namespace BraspagCielo\API30\Ecommerce;
 class Payment implements \JsonSerializable
 {
 
-    const PAYMENTTYPE_CREDITCARD = 'CreditCard';
+    const PAYMENTTYPE_CREDITCARD = 'SplittedCreditCard';
 
-    const PAYMENTTYPE_DEBITCARD = 'DebitCard';
+    const PAYMENTTYPE_DEBITCARD = '__DebitCard';
 
-    const PAYMENTTYPE_ELECTRONIC_TRANSFER = 'ElectronicTransfer';
+    const PAYMENTTYPE_ELECTRONIC_TRANSFER = '__ElectronicTransfer';
 
-    const PAYMENTTYPE_BOLETO = 'Boleto';
+    const PAYMENTTYPE_BOLETO = '__Boleto';
 
-    const PROVIDER_BRADESCO = 'Bradesco';
+    const PROVIDER_BRADESCO = '__Bradesco';
 
-    const PROVIDER_BANCO_DO_BRASIL = 'BancoDoBrasil';
+    const PROVIDER_BANCO_DO_BRASIL = '__BancoDoBrasil';
 
     const PROVIDER_SIMULADO = 'Simulado';
 
