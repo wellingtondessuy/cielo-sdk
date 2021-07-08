@@ -41,39 +41,39 @@ abstract class AbstractRequest
 
     private function braspagAuthToken()
     {
-        $headers = [
-            'Accept: application/json',
-            'Accept-Encoding: gzip',
-            'User-Agent: CieloEcommerce/3.0 PHP SDK',
-            'Authorization: Bearer ' . base64_encode($this->merchant->getId() . ':' . $this->merchant->getKey()),
-            'RequestId: ' . uniqid(),
+        $curl = curl_init();
+
+        curl_setopt_array($curl, array(
+        CURLOPT_URL => $this->environment->getBraspagOauth2ServerURL() . 'oauth2/token',
+        CURLOPT_RETURNTRANSFER => true,
+        CURLOPT_ENCODING => '',
+        CURLOPT_MAXREDIRS => 10,
+        CURLOPT_TIMEOUT => 0,
+        CURLOPT_FOLLOWLOCATION => true,
+        CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+        CURLOPT_CUSTOMREQUEST => 'POST',
+        CURLOPT_POSTFIELDS => 'grant_type=client_credentials',
+        CURLOPT_HTTPHEADER => array(
+            'Authorization: Basic ' . base64_encode($this->merchant->getId() . ':' . $this->merchant->getKey()),
             'Content-Type: application/x-www-form-urlencoded'
-        ];
+        ),
+        ));
 
-        $curl = curl_init($this->environment->getBraspagOauth2ServerURL());
-
-        curl_setopt($curl, CURLOPT_SSLVERSION, CURL_SSLVERSION_TLSv1_2);
-        curl_setopt($curl, CURLOPT_SSL_VERIFYPEER, true);
-        curl_setopt($curl, CURLOPT_POST, true);
-        curl_setopt($curl, CURLOPT_POSTFIELDS, 'grant_type=client_credentials');
-        curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
-        curl_setopt($curl, CURLOPT_HTTPHEADER, $headers);
-
-        $response   = curl_exec($curl);
-        $statusCode = curl_getinfo($curl, CURLINFO_HTTP_CODE);
-
-        die(var_dump($response));
-
-        if (curl_errno($curl)) {
-            $message = sprintf('cURL error[%s]: %s', curl_errno($curl), curl_error($curl));
-
-            $this->logger->error($message);
-
-            throw new \RuntimeException($message);
-        }
+        $response = curl_exec($curl);
 
         curl_close($curl);
 
+        $responseArr = [];
+
+        if (!empty($response)) {
+            $responseArr = json_decode($response, true);
+        }
+
+        if (empty($responseArr)) {
+            return '';
+        }
+
+        return $responseArr['access_token'];
     }
 
     /**
@@ -88,15 +88,16 @@ abstract class AbstractRequest
      */
     protected function sendRequest($method, $url, \JsonSerializable $content = null)
     {
-        $this->braspagAuthToken();
+        $braspagAuthToken = $this->braspagAuthToken();
 
         $headers = [
             'Accept: application/json',
             'Accept-Encoding: gzip',
             'User-Agent: CieloEcommerce/3.0 PHP SDK',
-            'MerchantId: ' . $this->merchant->getId(),
-            'MerchantKey: ' . $this->merchant->getKey(),
-            'RequestId: ' . uniqid()
+            // 'MerchantId: ' . $this->merchant->getId(),
+            // 'MerchantKey: ' . $this->merchant->getKey(),
+            'RequestId: ' . uniqid(),
+            'Authorization: Bearer ' . $braspagAuthToken
         ];
 
         $curl = curl_init($url);
